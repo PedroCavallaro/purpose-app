@@ -1,24 +1,16 @@
-import { AccountStatus } from 'src/domain/users/enum'
-import { Column, Entity, PrimaryColumn } from 'typeorm'
+import { Insertable, Selectable, Updateable } from 'kysely'
+import { AccountStatus } from 'src/domain/accounts/enum'
 import { BaseEntity } from './base'
 
-@Entity('accounts')
-export class AccountsEntity extends BaseEntity {
-  @PrimaryColumn({ type: 'uuid' })
+export interface AccountsTable extends BaseEntity {
   id: string
-
-  @Column({ nullable: false, unique: true })
   email: string
-
-  @Column({ nullable: false, unique: true })
   google_id: string
-
-  @Column({ nullable: false, unique: true })
   gateway_id: string
-
-  @Column({ nullable: false, unique: true })
   plan_id: string
-
-  @Column({ nullable: false })
   status: AccountStatus
 }
+
+export type AccountSelect = Selectable<AccountsTable>
+export type NewAccount = Insertable<AccountsTable>
+export type AccountUpdate = Updateable<AccountsTable>

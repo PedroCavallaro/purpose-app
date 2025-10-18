@@ -5,10 +5,10 @@ export class User {
   userId: string
   email: Email
   name: string
-  picture: string
+  picture?: string | null
   account: Account
 
-  setPersonalData(email: string, name: string, picture: string) {
+  setPersonalData(email: string, name: string, picture?: string | null) {
     this.email = new Email(email)
     this.name = name
     this.picture = picture
@@ -16,8 +16,8 @@ export class User {
     return this
   }
 
-  setAccount(acccount: Account) {
-    this.account = new Account(createdAt, status)
+  setAccount(account: Account) {
+    this.account = account
 
     return this
   }

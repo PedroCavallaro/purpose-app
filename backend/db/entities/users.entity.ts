@@ -1,19 +1,14 @@
-import { Column, PrimaryColumn } from 'typeorm'
+import { Insertable, Selectable, Updateable } from 'kysely'
 import { BaseEntity } from './base'
 
-export class UsersEntity extends BaseEntity {
-  @PrimaryColumn({ type: 'uuid' })
+export interface UsersTable extends BaseEntity {
   id: string
-
-  @Column({ nullable: false })
   name: string
-
-  @Column({ nullable: true })
-  picture: string
-
-  @Column({ nullable: false })
+  picture: string | null
   account_id: string
-
-  @Column({ nullable: false })
   completion_days: number
 }
+
+export type UserSelect = Selectable<UsersTable>
+export type NewUser = Insertable<UsersTable>
+export type UserUpdate = Updateable<UsersTable>
