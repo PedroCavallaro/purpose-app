@@ -1,3 +1,4 @@
+import { Insertable } from 'kysely'
 import { GoalType } from 'src/domain'
 import { BaseTable } from './base'
 
@@ -6,3 +7,5 @@ export interface GoalsTable extends BaseTable {
   type: GoalType
   completion_date?: Date | null
 }
+
+export type NewGoal = Insertable<GoalsTable>

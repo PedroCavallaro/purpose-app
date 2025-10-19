@@ -1,10 +1,9 @@
 import { Module, OnModuleInit } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
 import { DataBaseProvider, DatabaseModule } from './infra'
 import { AccountsModule } from './modules/accounts/accounts.module'
 
 @Module({
-  imports: [ConfigModule.forRoot(), DatabaseModule, AccountsModule],
+  imports: [DatabaseModule, AccountsModule],
   controllers: [],
   providers: []
 })

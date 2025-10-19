@@ -2,26 +2,36 @@ import { promises as fs } from 'node:fs'
 import * as path from 'node:path'
 import { Injectable } from '@nestjs/common'
 import { Database } from 'db/entities'
-import { FileMigrationProvider, Kysely, Migrator, MysqlDialect } from 'kysely'
-import { createPool } from 'mysql2'
+import {
+  FileMigrationProvider,
+  Kysely,
+  Migrator,
+  PostgresDialect
+} from 'kysely'
+import { Pool } from 'pg'
+import { env } from 'src/env'
 
 @Injectable()
 export class DataBaseProvider extends Kysely<Database> {
   static instance: DataBaseProvider
+  private dialect: PostgresDialect
 
   private constructor() {
-    const dialect = new MysqlDialect({
-      pool: createPool({
-        uri: process.env.DB_URL,
-        user: process.env.DD_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME
+    const dialect = new PostgresDialect({
+      pool: new Pool({
+        host: env.db.host,
+        user: env.db.user,
+        password: env.db.password,
+        database: env.db.name,
+        port: env.db.port
       })
     })
 
     super({
       dialect
     })
+
+    this.dialect = dialect
   }
 
   static getInstance() {
@@ -36,14 +46,7 @@ export class DataBaseProvider extends Kysely<Database> {
 
   get db() {
     return new Kysely<Database>({
-      dialect: new MysqlDialect({
-        pool: createPool({
-          uri: process.env.DB_URL,
-          user: process.env.DD_USER,
-          password: process.env.DB_PASSWORD,
-          database: process.env.DB_NAME
-        })
-      })
+      dialect: this.dialect
     })
   }
 

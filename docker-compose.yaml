@@ -1,14 +1,14 @@
 services:
   db:
-    image: mysql
+    image: postgres
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYQSL_DATABASE=goal
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: goal
     ports:
-      - 3306:3306
+      - "5432:5432"
     volumes:
-      - data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - data:/var/lib/postgresql/data
   cache:
     image: redis
     ports:

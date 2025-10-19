@@ -1,7 +1,7 @@
 import { DataBaseProvider } from 'src/infra'
 
-async function rollback() {
+async function down() {
   await DataBaseProvider.getInstance().migrationDown()
 }
 
-rollback()
+down()
