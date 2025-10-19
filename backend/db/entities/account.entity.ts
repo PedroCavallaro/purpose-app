@@ -1,9 +1,8 @@
 import { Insertable, Selectable, Updateable } from 'kysely'
 import { AccountStatus } from 'src/domain/accounts/enum'
-import { BaseEntity } from './base'
+import { BaseTable } from './base'
 
-export interface AccountsTable extends BaseEntity {
-  id: string
+export interface AccountsTable extends BaseTable {
   email: string
   google_id: string
   gateway_id: string

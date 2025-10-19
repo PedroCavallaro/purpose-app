@@ -1,8 +1,7 @@
 import { Insertable, Selectable, Updateable } from 'kysely'
-import { BaseEntity } from './base'
+import { BaseTable } from './base'
 
-export interface UsersTable extends BaseEntity {
-  id: string
+export interface UsersTable extends BaseTable {
   name: string
   picture: string | null
   account_id: string

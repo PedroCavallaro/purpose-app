@@ -5,10 +5,10 @@ import { DataBaseProvider } from 'src/infra'
 
 @Injectable()
 export class AccountsRepository {
-  constructor(private readonly pool: DataBaseProvider) {}
+  constructor(private readonly db: DataBaseProvider) {}
 
   async getAccount(where: AccountSelect): Promise<User | null> {
-    const account = await this.pool
+    const account = await this.db
       .selectFrom('accounts')
       .select(['id', 'email', 'created_at', 'status'])
       .where((eb) =>
@@ -18,7 +18,7 @@ export class AccountsRepository {
 
     if (!account) return null
 
-    const user = await this.pool
+    const user = await this.db
       .selectFrom('users')
       .select(['id', 'name', 'picture'])
       .where('account_id', '=', account.id)

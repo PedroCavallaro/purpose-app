@@ -1,9 +1,8 @@
 import { Selectable } from 'kysely'
 import { PlanTags } from 'src/domain/plans'
-import { BaseEntity } from './base'
+import { BaseTable } from './base'
 
-export interface PlansTable extends BaseEntity {
-  id: string
+export interface PlansTable extends BaseTable {
   name: string
   description: string
   tag: PlanTags
