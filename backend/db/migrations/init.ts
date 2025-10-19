@@ -1,5 +1,5 @@
 import { Kysely, sql } from 'kysely'
-import { AccountStatus, PlanTags } from 'src/domain'
+import { AccountStatus, GoalType, PlanTags } from 'src/domain'
 
 export async function up(db: Kysely<any>): Promise<void> {
   db.schema.createType('plan_tag').asEnum([PlanTags.FREE]).execute()
@@ -11,6 +11,10 @@ export async function up(db: Kysely<any>): Promise<void> {
       AccountStatus.CANCELLED
     ])
     .execute()
+  db.schema
+    .createType('goal_type')
+    .asEnum([GoalType.DAILY, GoalType.FUTURE])
+    .execute()
 
   db.schema
     .createTable('plans')
@@ -18,6 +22,15 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('name', 'varchar', (col) => col.notNull())
     .addColumn('description', 'varchar', (col) => col.notNull())
     .addColumn('tag', sql`plan_tag not null`)
+    .addColumn('created_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
+    .addColumn('updated_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
+    .addColumn('deleted_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
     .execute()
 
   db.schema
@@ -29,6 +42,15 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('status', sql`account_status not null`)
     .addColumn('plan_id', 'serial', (col) =>
       col.references('plans.id').notNull()
+    )
+    .addColumn('created_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
+    .addColumn('updated_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
+    .addColumn('deleted_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
     )
     .execute()
 
@@ -51,11 +73,42 @@ export async function up(db: Kysely<any>): Promise<void> {
       col.references('accounts.id').notNull()
     )
     .execute()
+
+  db.schema
+    .createTable('goals')
+    .addColumn('id', 'serial', (col) => col.primaryKey())
+    .addColumn('description', 'varchar')
+    .addColumn('completion_date', 'timestamp')
+    .addColumn('type', sql`goal_type not null`)
+    .addColumn('created_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
+    .addColumn('updated_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
+    .addColumn('deleted_at', 'timestamp', (col) =>
+      col.defaultTo(sql`now()`).notNull()
+    )
+    .execute()
+
+  db.schema
+    .createTable('users_goals')
+    .addColumn('id', 'serial', (col) => col.primaryKey())
+    .addColumn('goal_id', 'serial', (col) =>
+      col.references('goals.id').notNull()
+    )
+    .addColumn('user_id', 'serial', (col) =>
+      col.references('users.id').notNull()
+    )
+    .execute()
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
-  db.schema.dropType('plan_tag')
-  db.schema.dropType('account_status')
+  db.schema.dropType('plan_tag').execute()
+  db.schema.dropType('account_status').execute()
+  db.schema.dropType('goal_type').execute()
+  db.schema.dropTable('users_goals').execute()
+  db.schema.dropTable('goals').execute()
   db.schema.dropTable('users').execute()
   db.schema.dropTable('accounts').execute()
   db.schema.dropTable('plans').execute()

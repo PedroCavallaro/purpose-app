@@ -35,5 +35,7 @@ export class AccountsRepository {
       )
   }
 
-  async createAccount(account: NewAccount) {}
+  async createAccount(account: NewAccount): Promise<Account> {
+    throw new Error('')
+  }
 }
