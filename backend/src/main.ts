@@ -1,10 +1,14 @@
-import { NestFactory } from '@nestjs/core'
-import { AppModule } from './app.module'
+import { HTTP_SERVER, modules } from './app.module'
 import { env } from './env'
+import { FastifyHttpServer, Module, Registry } from './infra'
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+async function main() {
+  Module.setMainModule(modules)
 
-  await app.listen(env.port ?? 3000)
+  const httpServer =
+    Registry.getInstance().inject<FastifyHttpServer>(HTTP_SERVER)
+
+  await httpServer.listen({ port: env.app.port })
 }
-bootstrap()
+
+main()

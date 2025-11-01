@@ -1,15 +1,10 @@
-import { Module, OnModuleInit } from '@nestjs/common'
-import { DataBaseProvider, DatabaseModule } from './infra'
-import { AccountsModule } from './modules/accounts/accounts.module'
-import { GoalsModule } from './modules/goals/goals.module'
+import { FastifyHttpServer, dbModule } from './infra'
+import { accountsModule } from './modules/accounts/accounts.module'
 
-@Module({
-  imports: [DatabaseModule, AccountsModule, GoalsModule],
-  controllers: [],
-  providers: []
-})
-export class AppModule implements OnModuleInit {
-  async onModuleInit() {
-    await DataBaseProvider.getInstance().migrateToLatest()
-  }
+export const HTTP_SERVER = 'HttpServer'
+
+const httpmodule = {
+  [HTTP_SERVER]: new FastifyHttpServer()
 }
+
+export const modules = { ...dbModule, ...httpmodule, ...accountsModule }

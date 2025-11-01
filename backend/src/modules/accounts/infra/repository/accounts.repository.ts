@@ -1,13 +1,11 @@
-import { Injectable } from '@nestjs/common'
 import { AccountSelect, NewAccount } from 'db/entities'
-import { Account, User } from 'src/domain'
+import { Account, AccountsRepository, User } from 'src/domain'
 import { DataBaseProvider } from 'src/infra'
 
-@Injectable()
-export class AccountsRepository {
+export class AccountsRepositoryDatabase implements AccountsRepository {
   constructor(private readonly db: DataBaseProvider) {}
 
-  async getAccount(where: AccountSelect): Promise<User | null> {
+  async getUserAccount(where: AccountSelect): Promise<User | null> {
     const account = await this.db
       .selectFrom('accounts')
       .select(['id', 'email', 'created_at', 'status'])
@@ -26,13 +24,7 @@ export class AccountsRepository {
 
     if (!user) return null
 
-    return new User()
-      .setPersonalData(account.email, user.name, user.picture)
-      .setAccount(
-        new Account(account.id)
-          .setCreatedAt(account.created_at)
-          .setStatus(account.status)
-      )
+    return new User().setPersonalData(account.email, user.name, user.picture)
   }
 
   async createAccount(account: NewAccount): Promise<Account> {

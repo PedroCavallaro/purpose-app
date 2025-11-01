@@ -1,15 +1,20 @@
-import { Injectable } from '@nestjs/common'
-import { Account, CreateAccountDTO, UseCase } from 'src/domain'
-import { AccountsRepository } from '../../infra'
+import {
+  Account,
+  AccountsRepository,
+  CreateAccountDTO,
+  UseCase
+} from 'src/domain'
+import { Inject } from 'src/infra'
+import { ACCOUNTS_REPOSITORY } from '../../accounts.module'
 
-@Injectable()
 export class CreateAccountUseCase
   implements UseCase<CreateAccountDTO, Account>
 {
-  constructor(private readonly accountRepository: AccountsRepository) {}
+  @Inject(ACCOUNTS_REPOSITORY)
+  private readonly accountRepository: AccountsRepository
 
   async execute(input: CreateAccountDTO): Promise<Account> {
-    //    this.accountRepository.createAccount()
+    const accounts = await this.accountRepository.getUserAccount()
 
     throw new Error('a')
   }

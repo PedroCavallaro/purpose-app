@@ -1,6 +1,5 @@
 import { promises as fs } from 'node:fs'
 import * as path from 'node:path'
-import { Injectable } from '@nestjs/common'
 import { Database } from 'db/entities'
 import {
   FileMigrationProvider,
@@ -11,7 +10,6 @@ import {
 import { Pool } from 'pg'
 import { env } from 'src/env'
 
-@Injectable()
 export class DataBaseProvider extends Kysely<Database> {
   static instance: DataBaseProvider
   private dialect: PostgresDialect

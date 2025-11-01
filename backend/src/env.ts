@@ -5,7 +5,10 @@ dotenv.config()
 class Env {
   static getEnv() {
     return {
-      port: Number(process.env.PORT) ?? 300,
+      app: {
+        port: Number(process.env.PORT) ?? 300,
+        nodeEnv: process.env.NODE_ENV
+      },
       db: {
         host: process.env.DB_HOST ?? '127.0.0.1',
         name: process.env.DB_NAME ?? 'goal',
