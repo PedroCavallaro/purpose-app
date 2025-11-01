@@ -3,14 +3,13 @@ import {
   AccountsRepository,
   CreateAccountDTO,
   UseCase
-} from 'src/domain'
-import { Inject } from 'src/infra'
-import { ACCOUNTS_REPOSITORY } from '../../accounts.module'
+} from '../../../../domain'
+import { Inject } from '../../../../infra'
 
 export class CreateAccountUseCase
   implements UseCase<CreateAccountDTO, Account>
 {
-  @Inject(ACCOUNTS_REPOSITORY)
+  @Inject('AccountsRepository')
   private readonly accountRepository: AccountsRepository
 
   async execute(input: CreateAccountDTO): Promise<Account> {

@@ -1,6 +1,6 @@
-import { AccountSelect, NewAccount } from 'db/entities'
-import { Account, AccountsRepository, User } from 'src/domain'
-import { DataBaseProvider } from 'src/infra'
+import { AccountSelect, NewAccount } from '../../../../../db/entities'
+import { Account, AccountsRepository, User } from '../../../../domain'
+import { DataBaseProvider } from '../../../../infra'
 
 export class AccountsRepositoryDatabase implements AccountsRepository {
   constructor(private readonly db: DataBaseProvider) {}

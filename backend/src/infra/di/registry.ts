@@ -1,8 +1,8 @@
-import { env } from 'src/env'
+import { env } from '../../env'
 
 export class Registry {
   private static instance: Registry
-  private dependencies = {}
+  dependencies = {}
 
   private constructor() {}
 

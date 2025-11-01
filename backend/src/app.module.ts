@@ -1,10 +1,6 @@
-import { FastifyHttpServer, dbModule } from './infra'
-import { accountsModule } from './modules/accounts/accounts.module'
+import { FastifyHttpServer, HTTP_SERVER, Registry, dbModule } from './infra'
+import { accountsModule } from './modules/accounts'
 
-export const HTTP_SERVER = 'HttpServer'
+Registry.getInstance().register(HTTP_SERVER, new FastifyHttpServer())
 
-const httpmodule = {
-  [HTTP_SERVER]: new FastifyHttpServer()
-}
-
-export const modules = { ...dbModule, ...httpmodule, ...accountsModule }
+export const modules = { ...dbModule, ...accountsModule }

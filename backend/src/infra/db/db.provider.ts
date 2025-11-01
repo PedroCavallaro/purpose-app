@@ -1,6 +1,5 @@
 import { promises as fs } from 'node:fs'
 import * as path from 'node:path'
-import { Database } from 'db/entities'
 import {
   FileMigrationProvider,
   Kysely,
@@ -8,7 +7,8 @@ import {
   PostgresDialect
 } from 'kysely'
 import { Pool } from 'pg'
-import { env } from 'src/env'
+import { Database } from '../../../db/entities'
+import { env } from '../../env'
 
 export class DataBaseProvider extends Kysely<Database> {
   static instance: DataBaseProvider

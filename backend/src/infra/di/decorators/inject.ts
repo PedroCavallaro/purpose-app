@@ -1,14 +1,14 @@
 import { Registry } from '../registry'
 
-export function Inject(key: string) {
+export function Inject(name: string) {
   return (target: any, propertyKey: string) => {
     target[propertyKey] = new Proxy(
       {},
       {
-        get(_: any, propertyKey: string) {
-          console.log(propertyKey)
+        get(target: any, propertyKey: string) {
+          console.log('oioioioi')
+          const dependency = Registry.getInstance().inject<any>(name)
 
-          const dependency = Registry.getInstance().inject<any>(key)
           return dependency[propertyKey]
         }
       }

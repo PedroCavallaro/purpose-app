@@ -1,4 +1,4 @@
-import { AccountSelect, NewAccount } from 'db/entities'
+import { AccountSelect, NewAccount } from '../../../../db/entities'
 import { Account, User } from '../entities'
 
 export interface AccountsRepository {

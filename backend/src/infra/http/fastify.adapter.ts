@@ -1,5 +1,5 @@
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { HttpServer, ListenOptions } from './http.server'
+import { HttpMethod, HttpServer, ListenOptions } from './http.server'
 
 export class FastifyHttpServer implements HttpServer {
   private app: FastifyInstance
@@ -9,6 +9,15 @@ export class FastifyHttpServer implements HttpServer {
       logger: true
     })
   }
+  route(
+    method: HttpMethod,
+    route: string,
+    callback: (request: FastifyRequest, reply: FastifyReply) => unknown
+  ): HttpServer {
+    this.app[method](route, callback)
+
+    return this
+  }
 
   async listen(options: ListenOptions): Promise<void> {
     console.log(`Server listening on port: ${options.port}`)
@@ -16,18 +25,5 @@ export class FastifyHttpServer implements HttpServer {
     await this.app.listen({
       port: options.port
     })
-  }
-
-  route(
-    method: 'get' | 'post' | 'patch' | 'delete' | 'put',
-    route: string,
-    callback: (
-      request: FastifyRequest,
-      reply: FastifyReply
-    ) => any | Promise<any>
-  ): HttpServer {
-    this.app[method](route, callback)
-
-    return this
   }
 }
