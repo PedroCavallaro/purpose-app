@@ -5,8 +5,7 @@ export function Inject(name: string) {
     target[propertyKey] = new Proxy(
       {},
       {
-        get(target: any, propertyKey: string) {
-          console.log('oioioioi')
+        get(_: any, propertyKey: string) {
           const dependency = Registry.getInstance().inject<any>(name)
 
           return dependency[propertyKey]

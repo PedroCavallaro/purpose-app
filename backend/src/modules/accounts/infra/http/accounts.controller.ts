@@ -6,14 +6,9 @@ export class AccountsController {
 
   constructor() {}
 
-  routes() {
-    console.log('httpServer', this.httpServer)
-    this.httpServer.route('get', '/', (req, res) => {
+  build() {
+    this.httpServer.route('get', '/', (req: any, res: any) => {
       return { oi: 'oi' }
     })
-  }
-
-  build() {
-    this.routes()
   }
 }

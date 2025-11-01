@@ -2,6 +2,7 @@ import { DataBaseProvider } from './db.provider'
 
 export const databaseProvider = DataBaseProvider.getInstance()
 
+export const DB_PROVIDER = 'DatabaseProvider'
 export const dbModule = {
-  [DataBaseProvider.name]: databaseProvider
+  [DB_PROVIDER]: databaseProvider
 }

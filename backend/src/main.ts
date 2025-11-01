@@ -1,19 +1,17 @@
 import { modules } from './app.module'
 import { env } from './env'
 import { FastifyHttpServer, Module, Registry } from './infra'
-import { AccountsController } from './modules/accounts/infra'
+import { Router } from './router'
 
 async function main() {
-  console.log(Registry.getInstance().dependencies)
   Module.setMainModule(modules)
+
+  const router = new Router()
 
   const httpServer =
     Registry.getInstance().inject<FastifyHttpServer>('HttpServer')
 
-  const authController =
-    Registry.getInstance().inject<AccountsController>('AccountsController')
-
-  authController.build()
+  router.init()
 
   await httpServer.listen({ port: env.app.port })
 }

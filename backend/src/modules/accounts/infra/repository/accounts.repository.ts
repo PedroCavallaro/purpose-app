@@ -1,9 +1,10 @@
 import { AccountSelect, NewAccount } from '../../../../../db/entities'
 import { Account, AccountsRepository, User } from '../../../../domain'
-import { DataBaseProvider } from '../../../../infra'
+import { DB_PROVIDER, DataBaseProvider, Inject } from '../../../../infra'
 
 export class AccountsRepositoryDatabase implements AccountsRepository {
-  constructor(private readonly db: DataBaseProvider) {}
+  @Inject(DB_PROVIDER)
+  private readonly db!: DataBaseProvider
 
   async getUserAccount(where: AccountSelect): Promise<User | null> {
     const account = await this.db

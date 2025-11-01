@@ -2,7 +2,7 @@ import { env } from '../../env'
 
 export class Registry {
   private static instance: Registry
-  dependencies = {}
+  private dependencies: any = {}
 
   private constructor() {}
 
@@ -15,11 +15,13 @@ export class Registry {
   }
 
   register(key: string, val: any) {
+    console.log(`Dependency ${key} initialized`)
+
     this.dependencies[key] = val
   }
 
   inject<T = unknown>(key: string) {
-    const dependency = this.dependencies[key]
+    const dependency: any = this.dependencies[key]
 
     if (!dependency) throw new Error(`Dependency ${key} not found`)
 
@@ -27,7 +29,7 @@ export class Registry {
   }
 
   clear() {
-    if (env.app.nodeEnv != 'TESTE') {
+    if (env.app.nodeEnv != 'TEST') {
       throw new Error('Registry.clear should only be called on tests')
     }
 

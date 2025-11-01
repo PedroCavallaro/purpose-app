@@ -7,7 +7,5 @@ export class Module {
     for (const [key, val] of entries) {
       Registry.getInstance().register(key, val)
     }
-
-    console.log(Registry.getInstance().inject('HttpServer'))
   }
 }
