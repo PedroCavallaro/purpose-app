@@ -14,7 +14,7 @@ export class DataBaseProvider extends Kysely<Database> {
   static instance: DataBaseProvider
   private dialect: PostgresDialect
 
-  private constructor() {
+  constructor() {
     const dialect = new PostgresDialect({
       pool: new Pool({
         host: env.db.host,

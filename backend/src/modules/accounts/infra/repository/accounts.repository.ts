@@ -4,9 +4,11 @@ import { DB_PROVIDER, DataBaseProvider, Inject } from '../../../../infra'
 
 export class AccountsRepositoryDatabase implements AccountsRepository {
   @Inject(DB_PROVIDER)
-  private readonly db!: DataBaseProvider
+  private readonly db: DataBaseProvider
 
   async getUserAccount(where: AccountSelect): Promise<User | null> {
+    console.log('db', this.db)
+
     const account = await this.db
       .selectFrom('accounts')
       .select(['id', 'email', 'created_at', 'status'])

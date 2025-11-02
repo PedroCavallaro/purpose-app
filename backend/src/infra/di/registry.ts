@@ -2,7 +2,7 @@ import { env } from '../../env'
 
 export class Registry {
   private static instance: Registry
-  private dependencies: any = {}
+  dependencies: any = {}
 
   private constructor() {}
 
