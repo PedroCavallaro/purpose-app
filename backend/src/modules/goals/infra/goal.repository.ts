@@ -1,6 +1,6 @@
-import { NewGoal } from 'db/entities'
-import { Goal } from 'src/domain'
-import { DataBaseProvider } from 'src/infra'
+import { NewGoal } from '../../../../db/entities'
+import { Goal } from '../../../domain'
+import { DataBaseProvider } from '../../../infra'
 
 export class GoalRepository {
   constructor(private readonly db: DataBaseProvider) {}

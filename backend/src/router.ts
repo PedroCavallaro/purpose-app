@@ -1,6 +1,6 @@
 import { Inject } from './infra'
+import { AccountsController } from './modules/accounts'
 import { ACCOUNTS_CONTROLLER } from './modules/accounts'
-import { AccountsController } from './modules/accounts/infra'
 
 export class Router {
   @Inject(ACCOUNTS_CONTROLLER)

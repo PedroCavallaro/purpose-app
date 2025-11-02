@@ -5,9 +5,7 @@ export class FastifyHttpServer implements HttpServer {
   private app: FastifyInstance
 
   constructor() {
-    this.app = Fastify({
-      logger: true
-    })
+    this.app = Fastify({})
   }
   route(
     method: HttpMethod,

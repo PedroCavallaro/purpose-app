@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc ./src/main.ts --outdir ./dist",
     "start": "bun ./dist/main.js",
-    "start:dev": "tsc && tsx watch src/main.ts | pino-pretty",
+    "start:dev": "tsc-watch --onSuccess \"node ./dist/src/main.js \" | pino-pretty",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

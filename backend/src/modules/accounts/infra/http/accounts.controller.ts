@@ -1,3 +1,4 @@
+import { CREATE_ACCOUNT } from '../..'
 import {
   HTTP_SERVER,
   HttpServer,
@@ -5,7 +6,6 @@ import {
   LOGGER,
   Logger
 } from '../../../../infra'
-import { CREATE_ACCOUNT } from '../../accounts.module'
 import { CreateAccountUseCase } from '../../usecases'
 
 export class AccountsController {
@@ -20,10 +20,14 @@ export class AccountsController {
 
   build() {
     this.httpServer.route('get', '/', (req: any, res: any) => {
-      this.ca.execute({
-        email: 'a',
-        name: 'a'
-      })
+      try {
+        this.ca.execute({
+          email: 'a',
+          name: 'a'
+        })
+      } catch (error) {
+        console.log(error)
+      }
 
       return { oi: 'oi' }
     })
