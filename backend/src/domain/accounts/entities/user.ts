@@ -1,10 +1,14 @@
 import { Email } from './email'
 
 export class User {
-  userId: string
+  id: string
   email: Email
   name: string
   picture?: string | null
+
+  constructor(id: string) {
+    this.id = id
+  }
 
   setPersonalData(email: string, name: string, picture?: string | null) {
     this.email = new Email(email)

@@ -8,9 +8,10 @@ import {
   Registry
 } from './infra'
 import { accountsModule } from './modules/accounts'
+import { authModule } from './modules/auth'
 
+Registry.getInstance().register(LOGGER, new PinoLogger())
 Registry.getInstance().register(HTTP_SERVER, new FastifyHttpServer())
 Registry.getInstance().register(DB_PROVIDER, new DataBaseProvider())
-Registry.getInstance().register(LOGGER, new PinoLogger())
 
-export const modules = { ...accountsModule }
+export const modules = { ...accountsModule, ...authModule }

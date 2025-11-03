@@ -1,8 +1,8 @@
+import { randomUUID } from 'node:crypto'
 import { ACCOUNTS_REPOSITORY } from '../..'
 import {
   Account,
   AccountsRepository,
-  AppError,
   CreateAccountDTO,
   UseCase
 } from '../../../../domain'
@@ -15,11 +15,15 @@ export class CreateAccountUseCase extends UseCase<CreateAccountDTO, Account> {
   private readonly logger: Logger
 
   protected override async _execute(input: CreateAccountDTO): Promise<Account> {
-    const account = await this.accountRepository.getUserAccount()
+    const userAccount = await this.accountRepository.getUserAccount()
 
-    if (account) throw new AppError(401, 'Conta já registrada')
+    if (userAccount?.account) return userAccount?.account
 
-    throw new Error('a')
+    const newAccount = Account.create(randomUUID())
+
+    await this.accountRepository.createAccount(newAccount)
+
+    return newAccount
   }
 
   protected override onError(error: unknown): void {

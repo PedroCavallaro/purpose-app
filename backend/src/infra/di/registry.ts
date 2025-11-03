@@ -1,7 +1,9 @@
 import { env } from '../../env'
+import { Logger, PinoLogger } from '../logger'
 
 export class Registry {
   private static instance: Registry
+  private logger: Logger = new PinoLogger()
   dependencies: any = {}
 
   private constructor() {}
@@ -15,7 +17,7 @@ export class Registry {
   }
 
   register(key: string, val: any) {
-    console.log(`Dependency ${key} initialized`)
+    this.logger.log(`Dependency ${key} initialized`)
 
     this.dependencies[key] = val
   }

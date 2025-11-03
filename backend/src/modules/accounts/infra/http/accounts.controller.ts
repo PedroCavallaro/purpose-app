@@ -1,35 +1,24 @@
 import { CREATE_ACCOUNT } from '../..'
-import {
-  HTTP_SERVER,
-  HttpServer,
-  Inject,
-  LOGGER,
-  Logger
-} from '../../../../infra'
+import { HTTP_SERVER, HttpServer, Inject } from '../../../../infra'
 import { CreateAccountUseCase } from '../../usecases'
 
 export class AccountsController {
   @Inject(HTTP_SERVER)
-  private readonly httpServer!: HttpServer
-  @Inject(LOGGER)
-  private readonly logger!: Logger
+  private readonly httpServer: HttpServer
   @Inject(CREATE_ACCOUNT)
-  private readonly ca!: CreateAccountUseCase
+  private readonly createAccountUseCase: CreateAccountUseCase
 
   constructor() {}
 
-  build() {
-    this.httpServer.route('get', '/', (req: any, res: any) => {
-      try {
-        this.ca.execute({
-          email: 'a',
-          name: 'a'
-        })
-      } catch (error) {
-        console.log(error)
-      }
+  async createAccount(req: any, res: any) {
+    const body = req.body
 
-      return { oi: 'oi' }
-    })
+    return await this.createAccountUseCase.execute(body)
+  }
+
+  build() {
+    this.httpServer.route('get', '/', (req: any, res: any) =>
+      this.createAccount(req, res)
+    )
   }
 }

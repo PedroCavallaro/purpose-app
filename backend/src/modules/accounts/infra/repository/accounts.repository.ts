@@ -1,11 +1,13 @@
-import { AccountSelect, NewAccount } from '../../../../../db/entities'
+import { AccountSelect } from '../../../../../db/entities'
 import { Account, AccountsRepository, User } from '../../../../domain'
 import { DataBaseProvider } from '../../../../infra'
 
 export class AccountsRepositoryDatabase implements AccountsRepository {
   constructor(private readonly db: DataBaseProvider) {}
 
-  async getUserAccount(where: AccountSelect): Promise<User | null> {
+  async getUserAccount(
+    where: AccountSelect
+  ): Promise<{ user: User; account: Account } | null> {
     const account = await this.db
       .selectFrom('accounts')
       .select(['id', 'email', 'created_at', 'status'])
@@ -24,10 +26,19 @@ export class AccountsRepositoryDatabase implements AccountsRepository {
 
     if (!user) return null
 
-    return new User().setPersonalData(account.email, user.name, user.picture)
+    return {
+      user: new User(user.id).setPersonalData(
+        account.email,
+        user.name,
+        user.picture
+      ),
+      account: new Account(account.id)
+        .setStatus(account.status)
+        .setCreatedAt(account.created_at)
+    }
   }
 
-  async createAccount(account: NewAccount): Promise<Account> {
+  async createAccount(account: Account): Promise<Account> {
     throw new Error('')
   }
 }

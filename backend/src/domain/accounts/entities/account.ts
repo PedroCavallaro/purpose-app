@@ -10,6 +10,14 @@ export class Account {
     this.id = id
   }
 
+  static create(id: string) {
+    const createdAt = new Date()
+
+    return new Account(id)
+      .setStatus(AccountStatus.ACTIVE)
+      .setCreatedAt(createdAt)
+  }
+
   setCreatedAt(createdAt: Date) {
     this.createdAt = createdAt
 
