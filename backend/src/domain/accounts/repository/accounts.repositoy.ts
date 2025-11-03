@@ -1,9 +1,7 @@
 import { AccountSelect } from '../../../../db/entities'
-import { Account, User } from '../entities'
+import { Account } from '../entities'
 
 export interface AccountsRepository {
-  getUserAccount(
-    where?: AccountSelect
-  ): Promise<{ user: User; account: Account } | null>
+  getUserAccount(where?: AccountSelect): Promise<Account | null>
   createAccount(account: Account): Promise<Account>
 }

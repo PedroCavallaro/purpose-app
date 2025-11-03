@@ -1,10 +1,11 @@
-import { randomUUID } from 'node:crypto'
 import { ACCOUNTS_REPOSITORY } from '../..'
 import {
   Account,
+  AccountStatus,
   AccountsRepository,
   CreateAccountDTO,
-  UseCase
+  UseCase,
+  User
 } from '../../../../domain'
 import { Inject, LOGGER, Logger } from '../../../../infra'
 
@@ -15,11 +16,21 @@ export class CreateAccountUseCase extends UseCase<CreateAccountDTO, Account> {
   private readonly logger: Logger
 
   protected override async _execute(input: CreateAccountDTO): Promise<Account> {
-    const userAccount = await this.accountRepository.getUserAccount()
+    const account = await this.accountRepository.getUserAccount()
 
-    if (userAccount?.account) return userAccount?.account
+    if (account) return account
 
-    const newAccount = Account.create(randomUUID())
+    const user = User.create({
+      name: input.name,
+      email: input.email,
+      picture: input?.email
+    })
+
+    const newAccount = Account.create({
+      status: AccountStatus.ACTIVE,
+      createdAt: new Date(),
+      user
+    })
 
     await this.accountRepository.createAccount(newAccount)
 

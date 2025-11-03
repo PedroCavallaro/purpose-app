@@ -1,9 +1,16 @@
 export class Email {
   private readonly validDomains = ['gmail']
+  private value: string
 
-  constructor(private readonly value: string) {}
+  constructor(value: string) {
+    if (!this.isValidDomain(value)) {
+      throw new Error('Invali domain')
+    }
 
-  isValidDomain() {
-    return this.validDomains.includes(this.value)
+    this.value = value
+  }
+
+  isValidDomain(value: string) {
+    return this.validDomains.includes(value)
   }
 }
